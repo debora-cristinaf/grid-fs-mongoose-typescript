@@ -4,8 +4,9 @@ import { connect } from "mongoose";
 import { GridFsStorage } from "multer-gridfs-storage";
 
 export const gridFsStorage = () => {
+  const database = connect(env.mongoose.uri, { dbName: "gridfs" });
   const storage = new GridFsStorage({
-    db: connect(env.mongoose.uri, { dbName: "gridfs" }),
+    db: database,
     file: (req, file) => ({
       filename: `${file.originalname}_${Date.now()}`,
       bucketName: "uploads",
